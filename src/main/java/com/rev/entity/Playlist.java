@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,6 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class Playlist {
 	
+
 @Id
 @Column(name="pid")
 @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,24 +30,20 @@ public class Playlist {
 
 @Column(name="name",length=50)
  private String name;
+@Column(name="user_id", nullable = false)
+private int uid;
 
-@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-@JoinTable(name="playlist_library",
-			joinColumns=@JoinColumn(name="pid"),
-			inverseJoinColumns=@JoinColumn(name="lid"))
-		private List<Library>  libraryEntries= new ArrayList<>();
 
 public Playlist() {
 
 
 
 }
-
-public Playlist( String name, List<Library> libraryEntries) {
-
+public Playlist(String name) {
 	this.name = name;
-	this.libraryEntries = libraryEntries;
 }
+
+
 
 public long getId() {
 	return id;
@@ -64,13 +61,6 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public List<Library> getLibraryEntries() {
-	return libraryEntries;
-}
-
-public void setLibraryEntries(List<Library> libraryEntries) {
-	this.libraryEntries = libraryEntries;
-}
 
 
 
